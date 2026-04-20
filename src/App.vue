@@ -1,7 +1,7 @@
 <template>
   <Scatter
-    :population="currentGeneration!.population.map((p) => ({ x: p.return * 100, y: p.risk * 100 }))"
-    :pareto="currentGeneration!.pareto.map((p) => ({ x: p.return * 100, y: p.risk * 100 }))"
+    :population="currentGeneration!.population.map((p) => ({ x: p.risk * 100, y: p.return * 100 }))"
+    :pareto="currentGeneration!.pareto.map((p) => ({ x: p.risk * 100, y: p.return * 100 }))"
     :title="`Génération ${counterGen + 1}`"
   />
   <button @click="previousGeneration" style="margin-right: 24px; width: 100px">Precedent</button>
@@ -24,17 +24,17 @@ const assets: IAsset[] = [
   {
     name: 'A',
     return: 0.4,
-    risk: 0.2,
+    risk: 0.4,
   },
   {
     name: 'B',
-    return: 0.2,
-    risk: 0.1,
+    return: 0.3,
+    risk: 0.2,
   },
   {
     name: 'C',
-    return: 0.3,
-    risk: 0.1,
+    return: 0.5,
+    risk: 0.4,
   },
 ]
 
@@ -85,7 +85,7 @@ const generationLabo = (populationSize: number, maxGeneration: number): IGenerat
   return generations
 }
 
-generations.value = generationLabo(50, 10)
+generations.value = generationLabo(30, 10)
 
 const nextGeneration = () => {
   if (counterGen.value < generations.value.length - 1) {

@@ -4,7 +4,7 @@
 </template>
 
 <script setup lang="ts">
-import { Chart, Title } from 'chart.js/auto'
+import { Chart } from 'chart.js/auto'
 import { onMounted, watch } from 'vue'
 
 const props = defineProps<{
@@ -25,12 +25,12 @@ onMounted(() => {
         {
           type: 'scatter',
           label: 'Pareto',
-          data: props.pareto.sort((a, b) => a.y - b.y),
+          data: props.pareto.sort((a, b) => a.x - b.x),
         },
         {
           type: 'line',
           label: 'Pareto',
-          data: props.pareto.sort((a, b) => a.y - b.y),
+          data: props.pareto.sort((a, b) => a.x - b.x),
         },
       ],
     },
@@ -40,20 +40,18 @@ onMounted(() => {
           type: 'linear',
           position: 'bottom',
           min: 0,
-          max: 50,
           title: {
             display: true,
-            text: 'Rendement',
+            text: 'Risque',
           },
         },
         y: {
           type: 'linear',
           position: 'bottom',
           min: 0,
-          max: 50,
           title: {
             display: true,
-            text: 'Risque',
+            text: 'Rendement',
           },
         },
       },
@@ -73,12 +71,12 @@ onMounted(() => {
           {
             type: 'scatter',
             label: 'Pareto',
-            data: props.pareto.sort((a, b) => a.y - b.y),
+            data: props.pareto.sort((a, b) => a.x - b.x),
           },
           {
             type: 'line',
             label: 'Pareto',
-            data: props.pareto.sort((a, b) => a.y - b.y),
+            data: props.pareto.sort((a, b) => a.x - b.x),
           },
         ],
       }
