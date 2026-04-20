@@ -44,7 +44,7 @@ export const getPareto = (population: IPortfolio[]): IPortfolio[] => {
 
 export const mutate = (portfolio: IPortfolio): IPortfolio => {
   const mutatedWeights: number[] = portfolio.weights.map((w) => {
-    w += (Math.random() - 0.5) * 0.1
+    w += Math.sqrt(Math.pow(Math.random() - 0.5 * 0.1, 2))
     return w
   })
 
@@ -52,7 +52,6 @@ export const mutate = (portfolio: IPortfolio): IPortfolio => {
   const normalizedWeights: number[] = mutatedWeights.map((w) =>
     parseFloat((w / totalWeight).toFixed(2)),
   )
-
   return {
     ...portfolio,
     weights: normalizedWeights,
@@ -75,4 +74,13 @@ export const crossover = (parent1: IPortfolio, parent2: IPortfolio): IPortfolio 
     return: 0,
     risk: 0,
   }
+}
+
+export const generatePopulation = (size: number, assets: IAsset[]): IPortfolio[] => {
+  const population: IPortfolio[] = []
+  for (let i = 0; i < size; i++) {
+    const portfolio = generate(`p-${i + 1}`, assets)
+    population.push(portfolio)
+  }
+  return population
 }
