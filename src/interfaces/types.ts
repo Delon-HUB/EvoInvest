@@ -10,3 +10,9 @@ export interface IPortfolio {
   return: number
   risk: number
 }
+
+export interface IGeneration {
+  generation: number
+  population: IPortfolio[]
+  pareto: IPortfolio[]
+}

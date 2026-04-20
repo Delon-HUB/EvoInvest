@@ -1,9 +1,10 @@
 import type { IAsset, IPortfolio } from '@/interfaces/types'
+import { cloneDeep } from 'lodash'
 
 export const generate = (name: string, assets: IAsset[]): IPortfolio => {
   const weights: number[] = assets.map(() => Math.random())
   const totalWeight: number = weights.reduce((sum, w) => sum + w, 0)
-  const normalizedWeights: number[] = weights.map((w) => parseFloat((w / totalWeight).toFixed(2)))
+  const normalizedWeights: number[] = weights.map((w) => parseFloat(w / totalWeight + ''))
 
   return {
     name,
@@ -14,19 +15,24 @@ export const generate = (name: string, assets: IAsset[]): IPortfolio => {
 }
 
 export const evaluate = (portfolio: IPortfolio, assets: IAsset[]): IPortfolio => {
-  const _return: number = portfolio.weights.reduce((sum, w, i) => sum + w * assets[i]!.return, 0)
+  const copiePortfolio = cloneDeep(portfolio)
+  const _return: number = copiePortfolio.weights.reduce(
+    (sum, w, i) => sum + w * assets[i]!.return,
+    0,
+  )
 
-  const variance: number = portfolio.weights.reduce(
+  const variance: number = copiePortfolio.weights.reduce(
     (sum, w, i) => sum + Math.pow(w * assets[i]!.risk, 2),
     0,
   )
   const risk: number = Math.sqrt(variance)
 
   const updatedPortfolio: IPortfolio = {
-    ...portfolio,
-    return: parseFloat(_return.toFixed(2)),
-    risk: parseFloat(risk.toFixed(2)),
+    ...copiePortfolio,
+    return: parseFloat(_return + ''),
+    risk: parseFloat(risk + ''),
   }
+
   return updatedPortfolio
 }
 
@@ -43,33 +49,35 @@ export const getPareto = (population: IPortfolio[]): IPortfolio[] => {
 }
 
 export const mutate = (portfolio: IPortfolio): IPortfolio => {
-  const mutatedWeights: number[] = portfolio.weights.map((w) => {
+  const copiePortfolio = cloneDeep(portfolio)
+  const mutatedWeights: number[] = copiePortfolio.weights.map((w) => {
     w += Math.sqrt(Math.pow(Math.random() - 0.5 * 0.1, 2))
     return w
   })
 
   const totalWeight: number = mutatedWeights.reduce((sum, w) => sum + w, 0)
-  const normalizedWeights: number[] = mutatedWeights.map((w) =>
-    parseFloat((w / totalWeight).toFixed(2)),
-  )
-  return {
-    ...portfolio,
+  const normalizedWeights: number[] = mutatedWeights.map((w) => parseFloat(w / totalWeight + ''))
+
+  const mutatedPortfolio: IPortfolio = {
+    ...copiePortfolio,
     weights: normalizedWeights,
   }
+
+  return mutatedPortfolio
 }
 
 export const crossover = (parent1: IPortfolio, parent2: IPortfolio): IPortfolio => {
-  const childWeights: number[] = parent1.weights.map((w, i) =>
-    Math.random() < 0.5 ? w : parent2.weights[i]!,
+  const copieP1 = cloneDeep(parent1)
+  const copieP2 = cloneDeep(parent2)
+  const childWeights: number[] = copieP1.weights.map((w, i) =>
+    Math.random() < 0.5 ? w : copieP2.weights[i]!,
   )
 
   const totalWeight: number = childWeights.reduce((sum, w) => sum + w, 0)
-  const normalizedWeights: number[] = childWeights.map((w) =>
-    parseFloat((w / totalWeight).toFixed(2)),
-  )
+  const normalizedWeights: number[] = childWeights.map((w) => parseFloat(w / totalWeight + ''))
 
   return {
-    name: `${parent1.name}-${parent2.name}`,
+    name: `a`,
     weights: normalizedWeights,
     return: 0,
     risk: 0,
