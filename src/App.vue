@@ -1,7 +1,19 @@
 <template>
   <Scatter
-    :population="currentGeneration!.population.map((p) => ({ x: p.risk * 100, y: p.return * 100 }))"
-    :pareto="currentGeneration!.pareto.map((p) => ({ x: p.risk * 100, y: p.return * 100 }))"
+    :population="
+      currentGeneration!.population.map((p) => ({
+        x: parseFloat((p.risk * 100).toFixed(2)),
+        y: parseFloat((p.return * 100).toFixed(2)),
+        weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
+      }))
+    "
+    :pareto="
+      currentGeneration!.pareto.map((p) => ({
+        x: parseFloat((p.risk * 100).toFixed(2)),
+        y: parseFloat((p.return * 100).toFixed(2)),
+        weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
+      }))
+    "
     :title="`Génération ${counterGen + 1}`"
   />
   <button @click="previousGeneration" style="margin-right: 24px; width: 100px">Precedent</button>

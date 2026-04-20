@@ -16,3 +16,9 @@ export interface IGeneration {
   population: IPortfolio[]
   pareto: IPortfolio[]
 }
+
+export interface IPoint {
+  x: number
+  y: number
+  weights: number[]
+}

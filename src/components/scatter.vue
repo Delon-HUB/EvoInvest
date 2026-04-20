@@ -4,13 +4,14 @@
 </template>
 
 <script setup lang="ts">
+import type { IPoint } from '@/interfaces/types'
 import { Chart } from 'chart.js/auto'
 import { onMounted, watch } from 'vue'
 
 const props = defineProps<{
   title: string
-  population: { x: number; y: number }[]
-  pareto: { x: number; y: number }[]
+  population: IPoint[]
+  pareto: IPoint[]
 }>()
 
 onMounted(() => {
@@ -19,22 +20,32 @@ onMounted(() => {
       datasets: [
         {
           type: 'scatter',
-          label: 'Population',
+          label: 'Solution testée',
           data: props.population,
         },
         {
           type: 'scatter',
-          label: 'Pareto',
+          label: 'Meilleur solution',
           data: props.pareto.sort((a, b) => a.x - b.x),
         },
         {
           type: 'line',
-          label: 'Pareto',
+          label: '',
           data: props.pareto.sort((a, b) => a.x - b.x),
         },
       ],
     },
     options: {
+      plugins: {
+        tooltip: {
+          callbacks: {
+            label: function (context) {
+              const point: IPoint = context.raw as IPoint
+              return `Rendement: ${point.y}%\nRisque: ${point.x}%\nPoids: [${point.weights.map((w) => w + '%')}]`
+            },
+          },
+        },
+      },
       scales: {
         x: {
           type: 'linear',
