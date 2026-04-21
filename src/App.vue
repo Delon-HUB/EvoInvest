@@ -1,23 +1,61 @@
 <template>
-  <Scatter
-    :population="
-      currentGeneration!.population.map((p) => ({
-        x: parseFloat((p.risk * 100).toFixed(2)),
-        y: parseFloat((p.return * 100).toFixed(2)),
-        weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
-      }))
-    "
-    :pareto="
-      currentGeneration!.pareto.map((p) => ({
-        x: parseFloat((p.risk * 100).toFixed(2)),
-        y: parseFloat((p.return * 100).toFixed(2)),
-        weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
-      }))
-    "
-    :title="`Génération ${counterGen + 1} / ${generations.length}`"
-  />
-  <button @click="previousGeneration" style="margin-right: 24px; width: 100px">Precedent</button>
-  <button @click="nextGeneration" style="width: 100px">Suivant</button>
+  <MainLayout>
+    <q-card flat class="row">
+      <q-card-section class="col-3">
+        <TopList
+          :data="
+            currentGeneration!.pareto
+              .map((p) => ({
+                x: parseFloat((p.risk * 100).toFixed(2)),
+                y: parseFloat((p.return * 100).toFixed(2)),
+                weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
+              }))
+              .sort((a, b) => b.x - a.x)
+          "
+        />
+      </q-card-section>
+
+      <q-card-section class="col" align="right">
+        <Scatter
+          :population="
+            currentGeneration!.population.map((p) => ({
+              x: parseFloat((p.risk * 100).toFixed(2)),
+              y: parseFloat((p.return * 100).toFixed(2)),
+              weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
+            }))
+          "
+          :pareto="
+            currentGeneration!.pareto.map((p) => ({
+              x: parseFloat((p.risk * 100).toFixed(2)),
+              y: parseFloat((p.return * 100).toFixed(2)),
+              weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
+            }))
+          "
+          :title="`Génération ${counterGen + 1} / ${generations.length}`"
+        />
+        <q-card-actions align="right">
+          <q-btn
+            no-caps
+            color="grey"
+            style="width: 150px"
+            @click="previousGeneration"
+            class="q-mr-md"
+            icon="arrow_left"
+          >
+            Précedent
+          </q-btn>
+          <q-btn
+            icon-right="arrow_right"
+            no-caps
+            color="positive"
+            style="width: 150px"
+            @click="nextGeneration"
+            >Suivant</q-btn
+          >
+        </q-card-actions>
+      </q-card-section>
+    </q-card>
+  </MainLayout>
 </template>
 
 <script setup lang="ts">
@@ -26,6 +64,8 @@ import { crossover, evaluate, generatePopulation, getPareto, mutate } from './ut
 import Scatter from './components/scatter.vue'
 import { computed, ref } from 'vue'
 import { cloneDeep } from 'lodash'
+import MainLayout from './layout/MainLayout.vue'
+import TopList from './components/TopList.vue'
 
 const generations = ref<IGeneration[]>([])
 const counterGen = ref(0)
