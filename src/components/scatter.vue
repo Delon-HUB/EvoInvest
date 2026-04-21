@@ -1,6 +1,8 @@
 <template>
-  <canvas id="myChart"></canvas>
-  <h1>{{ props.title }}</h1>
+  <q-card flat style="width: 800px; height: 600px">
+    <canvas id="myChart"></canvas>
+    <p class="text-h5 text-bold text-center">{{ props.title }}</p>
+  </q-card>
 </template>
 
 <script setup lang="ts">
