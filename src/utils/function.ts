@@ -43,15 +43,17 @@ export const dominates = (p1: IPortfolio, p2: IPortfolio) => {
 }
 
 export const getPareto = (population: IPortfolio[]): IPortfolio[] => {
-  return population.filter(
-    (currentP) => !population.some((compareP) => dominates(currentP, compareP)),
+  const pareto = population.filter(
+    (currentP) => !population.some((compareP) => dominates(compareP, currentP)),
   )
+
+  return pareto.length > 0 ? pareto : population
 }
 
 export const mutate = (portfolio: IPortfolio): IPortfolio => {
   const copiePortfolio = cloneDeep(portfolio)
   const mutatedWeights: number[] = copiePortfolio.weights.map((w) => {
-    w += Math.sqrt(Math.pow(Math.random() - 0.5 * 0.1, 2))
+    w += Math.sqrt(Math.pow(Math.random() - 0.5 * 0.15, 2))
     return w
   })
 

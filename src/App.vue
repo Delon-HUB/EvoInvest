@@ -35,18 +35,18 @@ const currentGeneration = computed(() => generations.value[counterGen.value])
 const assets: IAsset[] = [
   {
     name: 'A',
-    return: 0.4,
-    risk: 0.4,
+    return: 0.3,
+    risk: 0.1,
   },
   {
     name: 'B',
-    return: 0.3,
+    return: 0.4,
     risk: 0.2,
   },
   {
     name: 'C',
     return: 0.5,
-    risk: 0.4,
+    risk: 0.3,
   },
 ]
 
@@ -76,13 +76,11 @@ const generationLabo = (populationSize: number, maxGeneration: number): IGenerat
 
       let population: IPortfolio[] = []
       for (let j = 0; j < currentGen.population.length; j++) {
-        const parent1 = cloneDeep(
-          currentGen.population[Math.floor(Math.random() * currentGen.population.length)]!,
-        )
-        const parent2 = cloneDeep(
-          currentGen.population[Math.floor(Math.random() * generations[i - 1]!.pareto.length)]!,
-        )
+        const index1 = Math.floor(Math.random() * currentGen.population.length)
+        const index2 = Math.floor(Math.random() * currentGen.population.length)
 
+        const parent1 = cloneDeep(currentGen.population[index1]!)
+        const parent2 = cloneDeep(currentGen.population[index2]!)
         const child = crossover(cloneDeep(parent1), cloneDeep(parent2))
         const mutatedChild = mutate(cloneDeep(child))
         population.push(mutatedChild)
@@ -97,7 +95,8 @@ const generationLabo = (populationSize: number, maxGeneration: number): IGenerat
   return generations
 }
 
-generations.value = generationLabo(30, 10)
+generations.value = generationLabo(5, 1000)
+counterGen.value = generations.value.length - 1
 
 const nextGeneration = () => {
   if (counterGen.value < generations.value.length - 1) {

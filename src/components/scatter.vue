@@ -27,11 +27,15 @@ onMounted(() => {
           type: 'scatter',
           label: 'Meilleur solution',
           data: props.pareto.sort((a, b) => a.x - b.x),
+          borderColor: 'green',
+          backgroundColor: 'green',
         },
         {
           type: 'line',
-          label: '',
+          label: 'Meilleur solution',
           data: props.pareto.sort((a, b) => a.x - b.x),
+          borderColor: 'red',
+          backgroundColor: 'red',
         },
       ],
     },
@@ -54,6 +58,7 @@ onMounted(() => {
           title: {
             display: true,
             text: 'Risque',
+            color: 'red',
           },
         },
         y: {
@@ -63,6 +68,7 @@ onMounted(() => {
           title: {
             display: true,
             text: 'Rendement',
+            color: 'green',
           },
         },
       },
@@ -83,11 +89,14 @@ onMounted(() => {
             type: 'scatter',
             label: 'Pareto',
             data: props.pareto.sort((a, b) => a.x - b.x),
+            borderColor: 'green',
+            backgroundColor: 'green',
           },
           {
             type: 'line',
-            label: 'Pareto',
+            label: 'Meilleur solution',
             data: props.pareto.sort((a, b) => a.x - b.x),
+            borderColor: 'red',
           },
         ],
       }
