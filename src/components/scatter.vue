@@ -1,7 +1,11 @@
 <template>
-  <q-card flat style="width: 800px; height: 600px">
-    <canvas id="myChart"></canvas>
+  <q-card flat>
     <p class="text-h5 text-bold text-center">{{ props.title }}</p>
+    <canvas id="myChart" class="graph"></canvas>
+    <p>
+      Plus haut = plus rentable<q-icon name="arrow_upward" color="positive" size="24px" />Plus à
+      gauche = Moins risqué<q-icon name="arrow_back" color="negative" size="24px" />
+    </p>
   </q-card>
 </template>
 
@@ -65,7 +69,6 @@ onMounted(() => {
           title: {
             display: true,
             text: 'Risque(%)',
-            color: 'red',
           },
         },
         y: {
@@ -75,7 +78,6 @@ onMounted(() => {
           title: {
             display: true,
             text: 'Rendement(%)',
-            color: 'green',
           },
         },
       },
@@ -118,3 +120,9 @@ onMounted(() => {
   )
 })
 </script>
+
+<style scoped>
+.graph {
+  max-height: 600px;
+}
+</style>
