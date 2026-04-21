@@ -14,7 +14,7 @@
         weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
       }))
     "
-    :title="`Génération ${counterGen + 1}`"
+    :title="`Génération ${counterGen + 1} / ${generations.length}`"
   />
   <button @click="previousGeneration" style="margin-right: 24px; width: 100px">Precedent</button>
   <button @click="nextGeneration" style="width: 100px">Suivant</button>
@@ -95,7 +95,7 @@ const generationLabo = (populationSize: number, maxGeneration: number): IGenerat
   return generations
 }
 
-generations.value = generationLabo(5, 1000)
+generations.value = generationLabo(10, 100)
 counterGen.value = generations.value.length - 1
 
 const nextGeneration = () => {
