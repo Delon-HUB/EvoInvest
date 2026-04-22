@@ -22,3 +22,9 @@ export interface IPoint {
   y: number
   weights: number[]
 }
+
+export interface IParameters {
+  generationSize: number
+  populationSize: number
+  mutationRate: number
+}

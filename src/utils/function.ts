@@ -50,10 +50,10 @@ export const getPareto = (population: IPortfolio[]): IPortfolio[] => {
   return pareto.length > 0 ? pareto : population
 }
 
-export const mutate = (portfolio: IPortfolio): IPortfolio => {
+export const mutate = (portfolio: IPortfolio, mutationRate: number = 0.1): IPortfolio => {
   const copiePortfolio = cloneDeep(portfolio)
   const mutatedWeights: number[] = copiePortfolio.weights.map((w) => {
-    w += Math.sqrt(Math.pow(Math.random() - 0.5 * 0.15, 2))
+    w += Math.sqrt(Math.pow(Math.random() - 0.5 * mutationRate, 2))
     return w
   })
 
