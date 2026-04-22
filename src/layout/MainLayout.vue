@@ -12,16 +12,26 @@
             <q-item-label caption class="text-white">Optimisation de portefeuille</q-item-label>
           </q-toolbar-title>
           <q-btn
-            icon="settings"
+            :icon="drawer ? 'visibility_off' : 'visibility'"
             flat
+            no-caps
             @click="() => (drawer = !drawer)"
-            :label="drawer ? 'Caher les paramètres' : 'Afficher paramètres'"
+            :label="drawer ? 'Masquer les paramètres' : 'Voir les paramètre'"
           />
         </q-toolbar>
       </q-header>
-      <q-drawer show-if-above v-model="drawer" side="right" bordered>
+      <q-drawer show-if-above v-model="drawer" side="right" bordered :width="450">
         <q-card flat class="q-ma-md">
-          <configuration @parameter_changed="(_parameters) => (parameters = _parameters)" />
+          <configuration
+            @configurationChanged="
+              (_parameters, _assets) => {
+                parameters = _parameters
+                assets = _assets
+
+                console.log(parameters, assets)
+              }
+            "
+          />
         </q-card>
       </q-drawer>
 
@@ -121,7 +131,7 @@ const generations = ref<IGeneration[]>([])
 const counterGen = ref(0)
 const currentGeneration = computed(() => generations.value[counterGen.value])
 
-const assets: IAsset[] = [
+const assets = ref<IAsset[]>([
   {
     name: 'A',
     return: 0.3,
@@ -137,11 +147,11 @@ const assets: IAsset[] = [
     return: 0.5,
     risk: 0.3,
   },
-]
+])
 
 // ------------------------------------------------------------------------------------------------------------------------------
 
-const generationLabo = (parameters: IParameters): IGeneration[] => {
+const generationLabo = (parameters: IParameters, assets: IAsset[]): IGeneration[] => {
   const generations: IGeneration[] = []
 
   for (let i = 0; i < parameters.generationSize; i++) {
@@ -184,7 +194,7 @@ const generationLabo = (parameters: IParameters): IGeneration[] => {
   return generations
 }
 
-generations.value = generationLabo(parameters.value)
+generations.value = generationLabo(parameters.value, assets.value)
 counterGen.value = generations.value.length - 1
 
 const nextGeneration = () => {
@@ -200,9 +210,9 @@ const previousGeneration = () => {
 }
 
 watch(
-  () => parameters.value,
+  () => parameters.value || assets.value,
   () => {
-    generations.value = generationLabo(parameters.value)
+    generations.value = generationLabo(parameters.value, assets.value)
     counterGen.value = generations.value.length - 1
   },
 )
