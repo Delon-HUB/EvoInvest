@@ -27,8 +27,6 @@
               (_parameters, _assets) => {
                 parameters = _parameters
                 assets = _assets
-
-                console.log(parameters, assets)
               }
             "
           />
@@ -49,6 +47,7 @@
                     }))
                     .sort((a, b) => b.x - a.x)
                 "
+                @portfolio-clicked="(p) => (portfolioForExplication = p)"
               />
             </q-card-section>
 
@@ -92,6 +91,22 @@
               </q-card-actions>
             </q-card-section>
           </q-card>
+          <q-card flat v-if="portfolioForExplication">
+            <span class="text-h6">Pour {{ portfolioForExplication.name }}</span> <br />
+            En investissant
+            <span v-for="(w, i) in portfolioForExplication.weights">
+              {{ `${w}% sur A${i + 1},` }}</span
+            >
+            on obtiendra {{ portfolioForExplication.y + '%' }} avec
+            {{ portfolioForExplication.x + '%' }} de variation. Cette variation du rendement est
+            entre [
+            {{
+              (portfolioForExplication.y - portfolioForExplication.x).toFixed(2) +
+              '% ; ' +
+              (portfolioForExplication.y + portfolioForExplication.x).toFixed(2) +
+              '%'
+            }}] qui se traduit par [rendement - risque ; rendement + risque]
+          </q-card>
         </q-page>
         <q-card flat dark style="border-radius: 0px">
           <q-page class="text-center">
@@ -114,7 +129,7 @@
 import Configuration from '@/components/Configuration.vue'
 import { ref, computed, watch } from 'vue'
 
-import type { IAsset, IGeneration, IParameters, IPortfolio } from '../interfaces/types'
+import type { IAsset, IGeneration, IParameters, IPoint, IPortfolio } from '../interfaces/types'
 import { crossover, evaluate, generatePopulation, getPareto, mutate } from '../utils'
 import Scatter from '../components/scatter.vue'
 import { cloneDeep } from 'lodash'
@@ -130,6 +145,7 @@ const parameters = ref<IParameters>({
 const generations = ref<IGeneration[]>([])
 const counterGen = ref(0)
 const currentGeneration = computed(() => generations.value[counterGen.value])
+const portfolioForExplication = ref<IPoint & { name: string }>()
 
 const assets = ref<IAsset[]>([
   {

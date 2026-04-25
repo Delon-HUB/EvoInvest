@@ -3,7 +3,11 @@
     <q-list separator>
       <q-item-label header class="text-center">Solution optimal</q-item-label>
       <q-separator />
-      <q-item v-for="(p, i) in data">
+      <q-item
+        v-for="(p, i) in data"
+        clickable
+        @click="() => emits('portfolioClicked', { ...p, name: `P${i + 1}` })"
+      >
         <q-item-section avatar>
           <q-icon text-color="white"> P{{ i + 1 }} </q-icon>
         </q-item-section>
@@ -24,4 +28,5 @@
 import type { IPoint } from '@/interfaces/types'
 
 const props = defineProps<{ data: IPoint[] }>()
+const emits = defineEmits(['portfolioClicked'])
 </script>
