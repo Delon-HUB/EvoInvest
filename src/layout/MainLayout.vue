@@ -83,7 +83,7 @@
                 <q-btn
                   icon-right="arrow_right"
                   no-caps
-                  color="positive"
+                  color="primary"
                   style="width: 150px"
                   @click="nextGeneration"
                   >Suivant</q-btn
