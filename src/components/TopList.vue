@@ -5,7 +5,7 @@
         ><q-icon name="bolt" size="sm" color="green" />Portefeuilles optimals
       </q-item-label>
       <q-separator />
-      <q-scroll-area style="height: 100vh">
+      <q-scroll-area style="height: 60vh">
         <q-item
           v-for="(p, i) in data"
           clickable

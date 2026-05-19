@@ -2,8 +2,8 @@
   <q-list bordered padding class="rounded-borders fit">
     <q-item class="q-pa-none q-ma-none">
       <q-item-label header class="text-bold text-gray text-h6">Actif à investir</q-item-label>
-      <q-item-label class="bg-grey"
-        ><q-btn icon="add" label="nouveau actif" color="primary" no-caps @click="addAsset" flat
+      <q-item-label
+        ><q-btn outline icon="add" label="nouveau actif" color="primary" no-caps @click="addAsset"
       /></q-item-label>
     </q-item>
 
