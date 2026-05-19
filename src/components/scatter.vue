@@ -1,9 +1,9 @@
 <template>
   <q-card flat>
-    <p class="text-h5 text-bold text-center">{{ props.title }}</p>
+    <p class="text-h5 text-bold text-center text-grey">{{ props.title }}</p>
     <canvas id="myChart" class="graph"></canvas>
     <p>
-      Plus haut = plus rentable<q-icon name="arrow_upward" color="positive" size="24px" />Plus à
+      Plus haut = plus rentable<q-icon name="arrow_upward" color="primary" size="24px" />Plus à
       gauche = Moins risqué<q-icon name="arrow_back" color="negative" size="24px" />
     </p>
   </q-card>
@@ -35,15 +35,15 @@ onMounted(() => {
           type: 'scatter',
           label: 'Meilleur solution',
           data: props.pareto.sort((a, b) => a.x - b.x),
-          backgroundColor: 'green',
-          borderColor: 'green',
+          backgroundColor: 'blue',
+          borderColor: 'blue',
           pointRadius: 5,
         },
         {
           type: 'line',
           label: 'Meilleur solution',
           data: props.pareto.sort((a, b) => a.x - b.x),
-          borderColor: 'green',
+          borderColor: 'blue',
           borderWidth: 2,
           fill: true,
           tension: 0.5,
@@ -100,15 +100,15 @@ onMounted(() => {
             type: 'scatter',
             label: 'Pareto',
             data: props.pareto.sort((a, b) => a.x - b.x),
-            backgroundColor: 'green',
-            borderColor: 'green',
+            backgroundColor: 'blue',
+            borderColor: 'blue',
             pointRadius: 5,
           },
           {
             type: 'line',
             label: 'Meilleur solution',
             data: props.pareto.sort((a, b) => a.x - b.x),
-            borderColor: 'green',
+            borderColor: 'blue',
             borderWidth: 2,
             fill: true,
             tension: 0.5,

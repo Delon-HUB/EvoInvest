@@ -1,15 +1,11 @@
 <template>
   <q-list bordered padding class="rounded-borders fit">
-    <q-item-label header
-      >Actif à investir<q-btn
-        icon="add"
-        label="nouveau actif"
-        color="positive"
-        no-caps
-        @click="addAsset"
-        flat
-      />
-    </q-item-label>
+    <q-item class="q-pa-none q-ma-none">
+      <q-item-label header class="text-bold text-gray text-h6">Actif à investir</q-item-label>
+      <q-item-label
+        ><q-btn outline icon="add" label="nouveau actif" color="primary" no-caps @click="addAsset"
+      /></q-item-label>
+    </q-item>
 
     <q-item v-ripple v-for="(asset, i) in assets">
       <q-item-section avatar>
@@ -70,7 +66,7 @@
     </q-item>
 
     <div>
-      <q-btn @click="applyConfiguration" label="Appliquer" color="positive" no-caps class="fit" />
+      <q-btn @click="applyConfiguration" label="Appliquer" color="primary" no-caps class="fit" />
     </div>
   </q-list>
 </template>

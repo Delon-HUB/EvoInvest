@@ -83,7 +83,7 @@
                 <q-btn
                   icon-right="arrow_right"
                   no-caps
-                  color="positive"
+                  color="primary"
                   style="width: 150px"
                   @click="nextGeneration"
                   >Suivant</q-btn
@@ -108,7 +108,7 @@
             }}] qui se traduit par [rendement - risque ; rendement + risque]
           </q-card>
         </q-page>
-        <q-card flat dark style="border-radius: 0px">
+        <!-- <q-card flat dark style="border-radius: 0px">
           <q-page class="text-center">
             <q-item-section>
               <p class="text-h5">À propos</p>
@@ -119,7 +119,7 @@
               convient le mieux.
             </q-item-section>
           </q-page>
-        </q-card>
+        </q-card> -->
       </q-page-container>
     </q-layout>
   </div>
