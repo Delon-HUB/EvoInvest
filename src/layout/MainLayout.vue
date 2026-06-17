@@ -148,18 +148,18 @@ const currentGeneration = computed(() => generations.value[counterGen.value])
 const assets = ref<IAsset[]>([
   {
     name: 'A',
-    return: 0.3,
-    risk: 0.1,
+    return: 0.35,
+    risk: 0.12,
   },
   {
     name: 'B',
-    return: 0.4,
-    risk: 0.2,
+    return: 0.2,
+    risk: 0.17,
   },
   {
     name: 'C',
-    return: 0.5,
-    risk: 0.3,
+    return: 0.43,
+    risk: 0.25,
   },
 ])
 
