@@ -101,18 +101,18 @@ const mutation = ref('10')
 const assets = ref<IAsset[]>([
   {
     name: '1',
-    return: 30,
+    return: 33,
     risk: 10,
   },
   {
     name: '2',
-    return: 40,
-    risk: 20,
+    return: 25,
+    risk: 17,
   },
   {
     name: '3',
-    return: 50,
-    risk: 30,
+    return: 41,
+    risk: 22,
   },
 ])
 
