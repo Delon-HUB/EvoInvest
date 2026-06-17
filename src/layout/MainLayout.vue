@@ -1,128 +1,126 @@
 <template>
-  <div>
-    <q-layout view="hHh lpR fFf" container style="height: 100vh">
-      <q-header>
-        <q-toolbar>
-          <q-avatar>
-            <q-icon size="32px" name="account_balance_wallet" />
-          </q-avatar>
+  <q-layout view="hHh LpR fFf" container style="height: 100vh">
+    <q-header class="bg-secondary q-pa-xs">
+      <q-toolbar>
+        <q-toolbar-title class="text-bold">
+          <q-item-label><q-icon size="32px" name="account_balance_wallet" />EvoInvest</q-item-label>
+          <q-item-label caption class="text-white">Optimisation de portefeuille</q-item-label>
+        </q-toolbar-title>
+      </q-toolbar>
+    </q-header>
 
-          <q-toolbar-title class="text-bold">
-            <q-item-label>EvoInvest</q-item-label>
-            <q-item-label caption class="text-white">Optimisation de portefeuille</q-item-label>
-          </q-toolbar-title>
-          <q-btn
-            :icon="drawer ? 'visibility_off' : 'visibility'"
-            flat
-            no-caps
-            @click="() => (drawer = !drawer)"
-            :label="drawer ? 'Masquer les paramètres' : 'Voir les paramètre'"
-          />
-        </q-toolbar>
-      </q-header>
-      <q-drawer show-if-above v-model="drawer" side="right" bordered :width="450">
-        <q-card flat class="q-ma-md">
-          <configuration
-            @configurationChanged="
-              (_parameters, _assets) => {
-                parameters = _parameters
-                assets = _assets
-              }
-            "
-          />
-        </q-card>
-      </q-drawer>
+    <q-footer class="bg-secondary">
+      <div class="q-ma-xs flex justify-between">
+        <q-btn
+          flat
+          rounded
+          no-caps
+          :icon="drawerLeft ? 'visibility_off' : 'visibility'"
+          @click="() => (drawerLeft = !drawerLeft)"
+          :label="drawerLeft ? 'Masquer les paramètres' : 'Voir les paramètre'"
+          class="text-bold"
+        />
+        <q-btn
+          flat
+          rounded
+          no-caps
+          :icon="drawerRight ? 'visibility_off' : 'visibility'"
+          @click="() => (drawerRight = !drawerRight)"
+          :label="drawerRight ? 'Masquer la liste' : 'Portefeuilles optimaux'"
+          class="text-bold"
+        />
+      </div>
+    </q-footer>
 
-      <q-page-container>
-        <q-page class="q-pa-md">
-          <q-card flat class="row">
-            <q-card-section class="col-3">
-              <TopList
-                :data="
-                  currentGeneration!.pareto
-                    .map((p) => ({
-                      x: parseFloat((p.risk * 100).toFixed(2)),
-                      y: parseFloat((p.return * 100).toFixed(2)),
-                      weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
-                    }))
-                    .sort((a, b) => b.x - a.x)
-                "
-                @portfolio-clicked="(p) => (portfolioForExplication = p)"
-              />
-            </q-card-section>
+    <q-drawer v-model="drawerLeft" show-if-above :width="450" :breakpoint="700">
+      <q-card flat bordered class="fit bg-grey-1">
+        <configuration
+          @configurationChanged="
+            (_parameters, _assets) => {
+              parameters = _parameters
+              assets = _assets
+            }
+          "
+        />
+      </q-card>
+    </q-drawer>
 
-            <q-card-section class="col" align="right">
-              <Scatter
-                :population="
-                  currentGeneration!.population.map((p) => ({
-                    x: parseFloat((p.risk * 100).toFixed(2)),
-                    y: parseFloat((p.return * 100).toFixed(2)),
-                    weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
-                  }))
-                "
-                :pareto="
-                  currentGeneration!.pareto.map((p) => ({
-                    x: parseFloat((p.risk * 100).toFixed(2)),
-                    y: parseFloat((p.return * 100).toFixed(2)),
-                    weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
-                  }))
-                "
-                :title="`Génération ${counterGen + 1} / ${generations.length}`"
-              />
-              <q-card-actions align="right">
-                <q-btn
-                  no-caps
-                  color="grey"
-                  style="width: 150px"
-                  @click="previousGeneration"
-                  class="q-mr-md"
-                  icon="arrow_left"
-                >
+    <q-drawer
+      side="right"
+      v-model="drawerRight"
+      show-if-above
+      bordered
+      :width="450"
+      :breakpoint="500"
+      class="bg-white"
+    >
+      <q-card flat class="fit bg-grey-1 q-pa-md">
+        <TopList
+          :data="
+            currentGeneration!.pareto
+              .map((p) => ({
+                x: parseFloat((p.risk * 100).toFixed(2)),
+                y: parseFloat((p.return * 100).toFixed(2)),
+                weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
+              }))
+              .sort((a, b) => b.x - a.x)
+          "
+        />
+      </q-card>
+    </q-drawer>
+
+    <q-page-container>
+      <q-page padding>
+        <q-card flat>
+          <q-card-section class="col" align="right">
+            <Scatter
+              :population="
+                currentGeneration!.population.map((p) => ({
+                  x: parseFloat((p.risk * 100).toFixed(2)),
+                  y: parseFloat((p.return * 100).toFixed(2)),
+                  weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
+                }))
+              "
+              :pareto="
+                currentGeneration!.pareto.map((p) => ({
+                  x: parseFloat((p.risk * 100).toFixed(2)),
+                  y: parseFloat((p.return * 100).toFixed(2)),
+                  weights: p.weights.map((w) => parseFloat((w * 100).toFixed(2))),
+                }))
+              "
+              :title="`Génération ${counterGen + 1} / ${generations.length}`"
+            />
+            <q-card-actions class="flex justify-end">
+              <div>
+                <q-btn no-caps flat @click="previousGeneration" class="q-mr-md" icon="arrow_left">
                   Précedent
                 </q-btn>
                 <q-btn
                   icon-right="arrow_right"
                   no-caps
-                  color="primary"
-                  style="width: 150px"
+                  flat
+                  color="secondary"
                   @click="nextGeneration"
                   >Suivant</q-btn
                 >
-              </q-card-actions>
-            </q-card-section>
-          </q-card>
-          <q-card flat v-if="portfolioForExplication">
-            <span class="text-h6">Pour {{ portfolioForExplication.name }}</span> <br />
-            En investissant
-            <span v-for="(w, i) in portfolioForExplication.weights">
-              {{ `${w}% sur A${i + 1},` }}</span
-            >
-            on obtiendra {{ portfolioForExplication.y + '%' }} avec
-            {{ portfolioForExplication.x + '%' }} de variation. Cette variation du rendement est
-            entre [
-            {{
-              (portfolioForExplication.y - portfolioForExplication.x).toFixed(2) +
-              '% ; ' +
-              (portfolioForExplication.y + portfolioForExplication.x).toFixed(2) +
-              '%'
-            }}] qui se traduit par [rendement - risque ; rendement + risque]
-          </q-card>
-        </q-page>
-        <!-- <q-card flat dark style="border-radius: 0px">
-          <q-page class="text-center">
-            <q-item-section>
-              <p class="text-h5">À propos</p>
-              Cette application vous aide à trouver la meilleure façon de répartir votre argent
-              entre plusieurs investissements. Elle compare différentes options en tenant compte du
-              rendement et du risque, puis met en évidence les choix les plus intéressants. Vous
-              pouvez ainsi voir facilement les compromis possibles et choisir celui qui vous
-              convient le mieux.
-            </q-item-section>
-          </q-page>
-        </q-card> -->
-      </q-page-container>
-    </q-layout>
-  </div>
+              </div>
+            </q-card-actions>
+          </q-card-section>
+        </q-card>
+
+        <q-card flat class="q-pa-md">
+          <q-card-section>
+            <p class="text-h5">À propos</p>
+            Cette application vous aide à trouver la meilleure façon de répartir votre argent entre
+            plusieurs investissements. Elle compare différentes options en tenant compte du
+            rendement et du risque, puis met en évidence les choix les plus intéressants. Vous
+            pouvez ainsi voir facilement les compromis possibles et choisir celui qui vous convient
+            le mieux.
+          </q-card-section>
+        </q-card>
+      </q-page>
+    </q-page-container>
+  </q-layout>
 </template>
 
 <script setup lang="ts">
@@ -135,7 +133,8 @@ import Scatter from '../components/scatter.vue'
 import { cloneDeep } from 'lodash'
 import TopList from '../components/TopList.vue'
 
-const drawer = ref(true)
+const drawerLeft = ref(false)
+const drawerRight = ref(false)
 
 const parameters = ref<IParameters>({
   generationSize: 10,
@@ -145,23 +144,22 @@ const parameters = ref<IParameters>({
 const generations = ref<IGeneration[]>([])
 const counterGen = ref(0)
 const currentGeneration = computed(() => generations.value[counterGen.value])
-const portfolioForExplication = ref<IPoint & { name: string }>()
 
 const assets = ref<IAsset[]>([
   {
-    name: 'A',
-    return: 0.3,
-    risk: 0.1,
+    name: '1',
+    return: 33,
+    risk: 10,
   },
   {
-    name: 'B',
-    return: 0.4,
-    risk: 0.2,
+    name: '2',
+    return: 25,
+    risk: 17,
   },
   {
-    name: 'C',
-    return: 0.5,
-    risk: 0.3,
+    name: '3',
+    return: 41,
+    risk: 22,
   },
 ])
 

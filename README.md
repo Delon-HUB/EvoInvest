@@ -1,48 +1,88 @@
-# evoinvest
+# EvoInvest
 
-This template should help get you started developing with Vue 3 in Vite.
+> Cette application vous aide à trouver la meilleure façon de répartir votre argent entre plusieurs investissements. Elle compare différentes options en tenant compte du rendement et du risque, puis met en évidence les choix les plus intéressants. Vous pouvez ainsi voir facilement les compromis possibles et choisir celui qui vous convient le mieux.
 
-## Recommended IDE Setup
+![Node](https://img.shields.io/badge/node-20%2B-brightgreen)
 
-[VS Code](https://code.visualstudio.com/) + [Vue (Official)](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
+---
 
-## Recommended Browser Setup
+## 📸 Aperçu
 
-- Chromium-based browsers (Chrome, Edge, Brave, etc.):
-  - [Vue.js devtools](https://chromewebstore.google.com/detail/vuejs-devtools/nhdogjmejiglipccpnnnanhbledajbpd)
-  - [Turn on Custom Object Formatter in Chrome DevTools](http://bit.ly/object-formatters)
-- Firefox:
-  - [Vue.js devtools](https://addons.mozilla.org/en-US/firefox/addon/vue-js-devtools/)
-  - [Turn on Custom Object Formatter in Firefox DevTools](https://fxdx.dev/firefox-devtools-custom-object-formatters/)
+![Dashboard](./docs/screenshots/snapshot.png)
 
-## Type Support for `.vue` Imports in TS
+---
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) to make the TypeScript language service aware of `.vue` types.
+## 🧱 Stack technique
 
-## Customize configuration
+| Couche   | Technologie            |
+| -------- | ---------------------- |
+| Frontend | Vue 3 (Quasar)         |
+| DevOps   | Docker, Docker Compose |
 
-See [Vite Configuration Reference](https://vite.dev/config/).
+---
 
-## Project Setup
+## 📁 Structure du projet
 
-```sh
-npm install
+```
+evoinvest/
+│
+│── src/
+│── Dockerfile
+└── README.md
 ```
 
-### Compile and Hot-Reload for Development
+---
 
-```sh
+## 🚀 Installation & Lancement
+
+### Prérequis
+
+- Git
+- Node.js 20+ ou [Docker](https://www.docker.com/)
+
+### 1. Cloner le projet
+
+```bash
+git clone git@github.com:Delon-HUB/EvoInvest.git
+cd evoinvest
+```
+
+### 2. Lancer avec Docker
+
+```bash
+docker image build -t evoinvest
+docker run -d --name evoinvest -p 8080:80 evoinvest:latest
+```
+
+---
+
+### 3. Accéder à l'application
+
+http://localhost:8080
+
+---
+
+### 4. Arrêter l'application
+
+```bash
+docker stop evoinvest
+```
+
+## 🛠️ Développement local (sans Docker)
+
+```bash
+# Backend
+cd evoinvest
+npm install
 npm run dev
 ```
 
-### Type-Check, Compile and Minify for Production
+---
 
-```sh
-npm run build
-```
+## 👤 Auteur
 
-### Lint with [ESLint](https://eslint.org/)
+**Nicolas Delon**
 
-```sh
-npm run lint
-```
+- GitHub : [@Delon-HUB](https://github.com/Delon-HUB)
+
+---
