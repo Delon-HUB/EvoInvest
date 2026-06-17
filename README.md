@@ -43,7 +43,7 @@ evoinvest/
 ### 1. Cloner le projet
 
 ```bash
-git clone https://github.com/Delon-HUB/shop2mada.git
+git clone git@github.com:Delon-HUB/EvoInvest.git
 cd evoinvest
 ```
 
