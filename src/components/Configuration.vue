@@ -1,74 +1,93 @@
 <template>
-  <q-list bordered padding class="rounded-borders fit">
-    <q-item class="q-pa-none q-ma-none">
-      <q-item-label header class="text-bold text-gray text-h6">Actif à investir</q-item-label>
-      <q-item-label
-        ><q-btn outline icon="add" label="nouveau actif" color="primary" no-caps @click="addAsset"
-      /></q-item-label>
-    </q-item>
+  <div class="fit q-px-md">
+    <q-toolbar>
+      <q-toolbar-title
+        ><q-icon name="settings" size="24px" class="q-mr-md" />Paramètre de
+        l'algorithme</q-toolbar-title
+      >
+    </q-toolbar>
+    <q-card flat>
+      <q-list class="q-mb-md">
+        <q-item class="q-ma-none q-pa-none">
+          <q-item-label header caption>Actifs</q-item-label>
+          <q-space />
+          <q-item-label class="q-px-md"
+            ><q-btn round flat icon="add_circle" no-caps @click="addAsset"
+          /></q-item-label>
+        </q-item>
+        <q-item v-for="(asset, i) in assets">
+          <q-item-section avatar>
+            <q-avatar class="text-bold" color="dark" text-color="white">A{{ i + 1 }}</q-avatar>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label caption>Rendement(%)</q-item-label>
+            <q-item-label
+              ><q-input color="green" type="number" outlined v-model="asset.return" min="0"
+            /></q-item-label>
+          </q-item-section>
+          <q-item-section>
+            <q-item-label caption>Risque(%)</q-item-label>
+            <q-item-label
+              ><q-input color="green" type="number" outlined v-model="asset.risk" min="0"
+            /></q-item-label>
+          </q-item-section>
 
-    <q-item v-ripple v-for="(asset, i) in assets">
-      <q-item-section avatar>
-        <q-avatar color="grey" text-color="white">A{{ i + 1 }}</q-avatar>
-      </q-item-section>
-      <q-item-section>
-        <q-item-label>Rendement(%)</q-item-label>
-        <q-item-label caption
-          ><q-input color="green" type="number" outlined v-model="asset.return" min="0"
-        /></q-item-label>
-      </q-item-section>
-      <q-item-section>
-        <q-item-label>Risque(%)</q-item-label>
-        <q-item-label caption
-          ><q-input color="green" type="number" outlined v-model="asset.risk" min="0"
-        /></q-item-label>
-      </q-item-section>
+          <q-item-section side>
+            <q-btn
+              flat
+              icon="delete"
+              color="negative"
+              @click="() => removeAsset(i)"
+              v-if="assets.length > 2"
+            />
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-card>
 
-      <q-item-section side>
-        <q-btn
-          flat
-          icon="delete"
-          color="negative"
-          @click="() => removeAsset(i)"
-          v-if="assets.length > 2"
-        />
-      </q-item-section>
-    </q-item>
+    <q-card flat>
+      <q-list>
+        <q-item-label header caption>Évolution</q-item-label>
+        <q-item>
+          <q-item-section>
+            <q-item-label lines="1" caption>Nombre de génération</q-item-label>
+            <q-item-label>
+              <q-input color="green" type="number" outlined v-model="generation" min="0" />
+            </q-item-label>
+          </q-item-section>
+        </q-item>
 
-    <q-separator spaced />
+        <q-item>
+          <q-item-section>
+            <q-item-label lines="1" caption>Taille de la population</q-item-label>
+            <q-item-label>
+              <q-input color="green" type="number" outlined v-model="population" min="0" />
+            </q-item-label>
+          </q-item-section>
+        </q-item>
 
-    <q-item-label header>Paramètre de l'algorithme</q-item-label>
-    <q-item v-ripple>
-      <q-item-section>
-        <q-item-label lines="1">Nombre de génération</q-item-label>
-        <q-item-label>
-          <q-input color="green" type="number" outlined v-model="generation" min="0" />
-        </q-item-label>
-      </q-item-section>
-    </q-item>
+        <q-item>
+          <q-item-section>
+            <q-item-label lines="1" caption>Taux de mutation (%)</q-item-label>
+            <q-item-label>
+              <q-input color="green" type="number" outlined v-model="mutation" min="0" />
+            </q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-card>
 
-    <q-item v-ripple>
-      <q-item-section>
-        <q-item-label lines="1">Taille de la population</q-item-label>
-        <q-item-label>
-          <q-input color="green" type="number" outlined v-model="population" min="0" />
-        </q-item-label>
-      </q-item-section>
-    </q-item>
-
-    <q-item v-ripple>
-      <q-item-section>
-        <q-item-label lines="1">Taux de mutation (%)</q-item-label>
-        <q-item-label>
-          <q-input color="green" type="number" outlined v-model="mutation" min="0" />
-        </q-item-label>
-      </q-item-section>
-    </q-item>
-
-    <div>
-      <q-btn @click="applyConfiguration" label="Appliquer" color="primary" no-caps class="fit" />
+    <div class="q-my-lg">
+      <q-btn
+        rounded
+        outline
+        @click="applyConfiguration"
+        label="Appliquer"
+        no-caps
+        class="fit text-white bg-secondary text-bold"
+      />
     </div>
-  </q-list>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -129,3 +148,12 @@ const applyConfiguration = () => {
   )
 }
 </script>
+
+<style scoped lang="css">
+.list {
+  border-radius: 24px;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  background-color: white;
+}
+</style>

@@ -1,9 +1,9 @@
 <template>
   <q-card flat>
-    <p class="text-h5 text-bold text-center text-grey">{{ props.title }}</p>
+    <p style="font-size: 2em" class="text-h2 text-overline text-center">{{ props.title }}</p>
     <canvas id="myChart" class="graph"></canvas>
     <p>
-      Plus haut = plus rentable<q-icon name="arrow_upward" color="primary" size="24px" />Plus à
+      Plus haut = plus rentable<q-icon name="arrow_upward" color="positive" size="24px" />Plus à
       gauche = Moins risqué<q-icon name="arrow_back" color="negative" size="24px" />
     </p>
   </q-card>
@@ -28,22 +28,22 @@ onMounted(() => {
           type: 'scatter',
           label: 'Solution testée',
           data: props.population,
-          backgroundColor: 'rgba(100,100,100,0.5)',
+          backgroundColor: 'rgba(255, 21, 0, 0.333)',
           pointRadius: 4,
         },
         {
           type: 'scatter',
           label: 'Meilleur solution',
           data: props.pareto.sort((a, b) => a.x - b.x),
-          backgroundColor: 'blue',
-          borderColor: 'blue',
+          backgroundColor: 'green',
+          borderColor: 'green',
           pointRadius: 5,
         },
         {
           type: 'line',
           label: 'Meilleur solution',
           data: props.pareto.sort((a, b) => a.x - b.x),
-          borderColor: 'blue',
+          borderColor: 'green',
           borderWidth: 2,
           fill: true,
           tension: 0.5,
@@ -93,22 +93,22 @@ onMounted(() => {
             type: 'scatter',
             label: 'Population',
             data: props.population,
-            backgroundColor: 'rgba(100,100,100,0.5)',
+            backgroundColor: 'rgba(255, 21, 0, 0.333)',
             pointRadius: 4,
           },
           {
             type: 'scatter',
             label: 'Pareto',
             data: props.pareto.sort((a, b) => a.x - b.x),
-            backgroundColor: 'blue',
-            borderColor: 'blue',
+            backgroundColor: 'green',
+            borderColor: 'green',
             pointRadius: 5,
           },
           {
             type: 'line',
             label: 'Meilleur solution',
             data: props.pareto.sort((a, b) => a.x - b.x),
-            borderColor: 'blue',
+            borderColor: 'green',
             borderWidth: 2,
             fill: true,
             tension: 0.5,
